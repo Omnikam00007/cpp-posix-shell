@@ -14,18 +14,19 @@ public:
   }
 
   void not_builtin(){
-    const char* system_path = std::getenv("path");
-    if (!system_path) {
-    std::cout << "PATH not set\n";
-    return;
-    }
+    std::string system_path = std::getenv("path");
+    // if (!system_path) {
+    // std::cout << "PATH not set\n";
+    // return;
+    // }
     std::istringstream path_stream(system_path);
       std::vector<std::string>paths_split;
       std::string temp;
 
       bool found = false;
-      while(std::getline(path_stream, temp, ':')){
+      while(std::getline(path_stream, temp, ';')){
 	std::string filepath = temp + "\\" + command.substr(5) + ".exe";
+  std::cout<<filepath<<std::endl;
 	if(access(filepath.c_str(), X_OK) == 0){
 		std::cout << command.substr(5)<<" is "<<filepath<<std::endl;		    
     found = true;
@@ -53,10 +54,10 @@ public:
       if(command=="exit"){
         break;
       }
-      else if(command.substr(0,5)=="echo "){
+      else if(command.size() >= 5 && command.substr(0,5)=="echo "){
         Echo_Command();
       }
-      else if(command.substr(0,5)=="type "){
+      else if(command.size() >= 5 && command.substr(0,5)=="type "){
         Type_command();
       }else{
           std::cout<<command<<": not found\n";
