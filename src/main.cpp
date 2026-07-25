@@ -23,7 +23,7 @@ public:
 
       bool found = false;
       while(std::getline(path_stream, temp, ';')){
-	std::string filepath = temp + "\\" + command.substr(5) + ".exe";
+	std::string filepath = temp + "/" + command.substr(5);
 	if(access(filepath.c_str(), X_OK) == 0){
 		std::cout << command.substr(5)<<" is "<<filepath<<std::endl;		    
     found = true;
