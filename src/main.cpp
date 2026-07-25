@@ -54,10 +54,10 @@ public:
       if(command=="exit"){
         break;
       }
-      else if(command.size() >= 5 && command.substr(0,5)=="echo "){
+      else if(command.substr(0,5)=="echo "){
         Echo_Command();
       }
-      else if(command.size() >= 5 && command.substr(0,5)=="type "){
+      else if(command.substr(0,5)=="type "){
         Type_command();
       }else{
           std::cout<<command<<": not found\n";
