@@ -1,7 +1,5 @@
 #include <iostream>
 #include <algorithm>
-#include <format>
-#include <iterator>
 #include <unistd.h>
 #include <string>
 #include <cstdlib>
@@ -16,14 +14,18 @@ public:
   }
 
   void not_builtin(){
-    std::string system_path = std::getenv("path");
+    const char* system_path = std::getenv("path");
+    if (!system_path) {
+    std::cout << "PATH not set\n";
+    return;
+    }
     std::istringstream path_stream(system_path);
       std::vector<std::string>paths_split;
       std::string temp;
 
       bool found = false;
       while(std::getline(path_stream, temp, ':')){
-	std::string filepath = temp + "/" + command.substr(5);
+	std::string filepath = temp + "\\" + command.substr(5) + ".exe";
 	if(access(filepath.c_str(), X_OK) == 0){
 		std::cout << command.substr(5)<<" is "<<filepath<<std::endl;		    
     found = true;
@@ -51,13 +53,13 @@ public:
       if(command=="exit"){
         break;
       }
-      else if(command.size() >= 5 &&command.substr(0,5)=="echo "){
+      else if(command.substr(0,5)=="echo "){
         Echo_Command();
       }
-      else if(command.size() >= 5 &&command.substr(0,5)=="type "){
+      else if(command.substr(0,5)=="type "){
         Type_command();
       }else{
-          std::cout<<command.substr(5)<<": not found\n";
+          std::cout<<command<<": not found\n";
           continue;
       }
     }
