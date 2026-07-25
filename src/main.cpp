@@ -14,7 +14,7 @@ public:
   }
 
   void not_builtin(){
-    std::string system_path = std::getenv("path");
+    std::string system_path = std::getenv("PATH");
     // if (!system_path) {
     // std::cout << "PATH not set\n";
     // return;
