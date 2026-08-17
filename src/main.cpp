@@ -55,7 +55,8 @@ bool executable(){
       pid_t process = fork();
 
       if(process==0){
-        char* path_value = find_path().data();
+        string temp2 = find_path()
+        char* path_value = temp2.data();
       std::string cmd = command.substr(0);
       std::istringstream cmd_stream(cmd);
       std::vector<std::string>first;
@@ -70,6 +71,7 @@ bool executable(){
       second.push_back(nullptr);
       // std::cout<<"Program was passed "<<second.size()-1<<" args (including program name)."<<std::endl;
       execvp(path_value,second.data());
+      perror("execvp");
 
       }else if(process>0){
         waitpid(process,nullptr,0);
