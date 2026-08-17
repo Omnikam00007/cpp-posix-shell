@@ -17,7 +17,7 @@ std::string find_path(){
     std::string filepath;
 
     bool found=false;
-    while(std::getline(path_stream,temp,":")){
+    while(std::getline(path_stream,temp,':')){
        filepath = temp + "/" + command.substr(5);
       if(access(filepath.c_str(), X_OK) == 0){
         found = true;
