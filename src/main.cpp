@@ -31,11 +31,13 @@ std::string find_path(){
 bool executable(){
   std::string system_path = std::getenv("PATH");
     std::istringstream path_stream(system_path);
+    std::istringstream cmd_stream(command)
     std::string temp;
-
+    string cmd;
+    std::getline(cmd_stream,cmd,' ');
     bool found=false;
     while(std::getline(path_stream,temp,':')){
-      std::string filepath = temp + "/" + command.substr(5);
+      std::string filepath = temp + "/" + cmd;
       if(access(filepath.c_str(), X_OK) == 0){
         found = true;
         break;
