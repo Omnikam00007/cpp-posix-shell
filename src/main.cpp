@@ -64,7 +64,7 @@ bool executable(){
         second.push_back(first[i].data());
       }
       second.push_back(nullptr);
-      std::cout<<"Program was passed "<<second.size()-1<<" args (including program name)."<<std::endl;
+      // std::cout<<"Program was passed "<<second.size()-1<<" args (including program name)."<<std::endl;
       execvp(path_value,second.data());
 
       waitpid(process,nullptr,0);
