@@ -69,7 +69,7 @@ bool executable(){
       // std::cout<<"Program was passed "<<second.size()-1<<" args (including program name)."<<std::endl;
       execvp(path_value,second.data());
 
-      }else if(){
+      }else if(process>0){
         waitpid(process,nullptr,0);
       }else{
         std::cerr << "Fork failed" << std::endl;
