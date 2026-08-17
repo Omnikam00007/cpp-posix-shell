@@ -15,10 +15,11 @@ std::string find_path(){
     std::istringstream path_stream(system_path);
     std::string temp;
     std::string filepath;
-
+    std::string cmd;
+    std::getline(cmd_stream,cmd,' ');
     bool found=false;
     while(std::getline(path_stream,temp,':')){
-       filepath = temp + "/" + command.substr(5);
+       filepath = temp + "/" + cmd;
       if(access(filepath.c_str(), X_OK) == 0){
         found = true;
         break;
