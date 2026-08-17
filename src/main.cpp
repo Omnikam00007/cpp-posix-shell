@@ -52,12 +52,16 @@ bool executable(){
       char* path_value = find_path().c_str();
       std::string cmd = command.substr(0);
       std::istringstream cmd_stream(cmd);
-      std::vector<char*>first;
+      std::vector<std::string>first;
+      std::vector<char*>second;
       std::string temp;
       while(std::getline(cmd_stream,temp,' ')){
-         char* temp1 = temp.c_str();
-         first.push_back(temp1);
+         first.push_back(temp);
       }
+      for(int i=0;i<first.size();i++){
+        second.push_back(first[i].data());
+      }
+      second.push_back(nullptr);
 
       execvp(path_value,first);
 
