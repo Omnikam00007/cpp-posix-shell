@@ -55,7 +55,7 @@ bool executable(){
       pid_t process = fork();
 
       if(process==0){
-        string temp2 = find_path()
+        std::string temp2 = find_path()
         char* path_value = temp2.data();
       std::string cmd = command.substr(0);
       std::istringstream cmd_stream(cmd);
