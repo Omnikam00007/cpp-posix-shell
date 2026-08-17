@@ -5,7 +5,7 @@
 #include <cstdlib>
 #include <vector>
 #include <sstream>
-#include <filesystem>
+#include <sys/wait.h>
 class Shell{
 public:
   std::string command;
@@ -34,7 +34,7 @@ bool executable(){
     std::string temp;
 
     bool found=false;
-    while(std::getline(path_stream,temp,":")){
+    while(std::getline(path_stream,temp,':')){
       std::string filepath = temp + "/" + command.substr(5);
       if(access(filepath.c_str(), X_OK) == 0){
         found = true;
@@ -49,7 +49,7 @@ bool executable(){
   void external_cmd(){
     if(executable()){
       pid_t process = fork();
-      char* path_value = find_path().c_str();
+      char* path_value = find_path().data();
       std::string cmd = command.substr(0);
       std::istringstream cmd_stream(cmd);
       std::vector<std::string>first;
@@ -63,7 +63,7 @@ bool executable(){
       }
       second.push_back(nullptr);
 
-      execvp(path_value,first);
+      execvp(path_value,second);
 
       waitpid(process,nullptr,0);
     }
