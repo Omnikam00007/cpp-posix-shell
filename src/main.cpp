@@ -31,7 +31,7 @@ std::string find_path(){
 bool executable(){
   std::string system_path = std::getenv("PATH");
     std::istringstream path_stream(system_path);
-    std::istringstream cmd_stream(command)
+    std::istringstream cmd_stream(command);
     std::string temp;
     std::string cmd;
     std::getline(cmd_stream,cmd,' ');
