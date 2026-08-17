@@ -17,7 +17,7 @@ std::string find_path(){
     std::string filepath;
 
     bool found=false;
-    while(getline(path_stream,temp,":")){
+    while(std::getline(path_stream,temp,":")){
        filepath = temp + "/" + command.substr(5);
       if(access(filepath.c_str(), X_OK) == 0){
         found = true;
@@ -34,7 +34,7 @@ bool executable(){
     std::string temp;
 
     bool found=false;
-    while(getline(path_stream,temp,":")){
+    while(std::getline(path_stream,temp,":")){
       std::string filepath = temp + "/" + command.substr(5);
       if(access(filepath.c_str(), X_OK) == 0){
         found = true;
@@ -49,18 +49,19 @@ bool executable(){
   void external_cmd(){
     if(executable()){
       pid_t process = fork();
-      std::string path_value = find_path();
+      char* path_value = find_path().c_str();
       std::string cmd = command.substr(0);
       std::istringstream cmd_stream(cmd);
       std::vector<char*>first;
-      while(getline(cmd_stream,temp,' ')){
+      std::string temp;
+      while(std::getline(cmd_stream,temp,' ')){
          char* temp1 = temp.c_str();
          first.push_back(temp1);
       }
 
       execvp(path_value,first);
 
-      waitpid(pid_t);
+      waitpid(process,nullptr,0);
     }
 
   }
