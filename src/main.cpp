@@ -33,7 +33,7 @@ bool executable(){
     std::istringstream path_stream(system_path);
     std::istringstream cmd_stream(command)
     std::string temp;
-    string cmd;
+    std::string cmd;
     std::getline(cmd_stream,cmd,' ');
     bool found=false;
     while(std::getline(path_stream,temp,':')){
