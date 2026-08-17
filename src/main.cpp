@@ -52,19 +52,13 @@ bool executable(){
       std::string path_value = find_path();
       std::string cmd = command.substr(0);
       std::istringstream cmd_stream(cmd);
-      std::vector<string>first;
-      while(getline(cmd_stream,temp," ")){
-         first.push_back(temp);
+      std::vector<char*>first;
+      while(getline(cmd_stream,temp,' ')){
+         char* temp1 = temp.c_str();
+         first.push_back(temp1);
       }
 
-      std::int s_first = first.size();
-      std::char* second[s_first];
-      for(int i =0;i<s_first;i++){
-        std::char* temp1 = s_first.c_str();
-        second[i] temp1;
-      }
-
-      execvp(path_value,second);
+      execvp(path_value,first);
 
       waitpid(pid_t);
     }
