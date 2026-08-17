@@ -63,7 +63,7 @@ bool executable(){
       }
       second.push_back(nullptr);
 
-      execvp(path_value,second);
+      execvp(path_value,second.data());
 
       waitpid(process,nullptr,0);
     }
