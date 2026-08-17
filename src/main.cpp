@@ -10,7 +10,7 @@ class Shell{
 public:
   std::string command;
 
-string find_path(){
+std::string find_path(){
   std::string system_path = std::getenv("PATH");
     std::istringstream path_stream(system_path);
     std::string temp;
@@ -49,18 +49,18 @@ bool executable(){
   void external_cmd(){
     if(executable()){
       pid_t process = fork();
-      string path_value = find_path();
-      string cmd = command.substr(0);
-      istringstream cmd_stream(cmd);
-      vector<string>first;
+      std::string path_value = find_path();
+      std::string cmd = command.substr(0);
+      std::istringstream cmd_stream(cmd);
+      std::vector<string>first;
       while(getline(cmd_stream,temp," ")){
          first.push_back(temp);
       }
 
-      int s_first = first.size();
-      char* second[s_first];
+      std::int s_first = first.size();
+      std::char* second[s_first];
       for(int i =0;i<s_first;i++){
-        char* temp1 = s_first.c_str();
+        std::char* temp1 = s_first.c_str();
         second[i] temp1;
       }
 
