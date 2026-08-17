@@ -51,7 +51,9 @@ bool executable(){
   void external_cmd(){
     if(executable()){
       pid_t process = fork();
-      char* path_value = find_path().data();
+
+      if(process==0){
+        char* path_value = find_path().data();
       std::string cmd = command.substr(0);
       std::istringstream cmd_stream(cmd);
       std::vector<std::string>first;
@@ -67,7 +69,11 @@ bool executable(){
       // std::cout<<"Program was passed "<<second.size()-1<<" args (including program name)."<<std::endl;
       execvp(path_value,second.data());
 
-      waitpid(process,nullptr,0);
+      }else if(){
+        waitpid(process,nullptr,0);
+      }else{
+        std::cerr << "Fork failed" << std::endl;
+      }
     }
 
   }
