@@ -136,11 +136,12 @@ bool executable(){
     std::string temp;
     int count=0;
     while(std::getline(cmd_stream,temp,'\'')){
-    if(count==1){
-      std::cout<<temp<<std::endl;
+    if(count>=1){
+      std::cout<<temp;
     }
     count++;
   }
+  std::cout<<std::endl;
 }
 else{
     std::vector<std::string>parsed_string = split_string(command);
