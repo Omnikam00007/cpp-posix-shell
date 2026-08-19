@@ -158,7 +158,12 @@ bool executable(){
     while(std::getline(cmd_stream,temp,'"')){
       // std::cout<<temp.find_first_not_of(' ')<<std::endl;
     if(count>=1 && !temp.find_first_not_of(' ')){
-      std::cout<<temp;
+      auto pos = temp.find_first_not_of(' ');
+  std::cout << ' ';
+
+  if (pos != std::string::npos) {
+      std::cout << temp.substr(pos);
+  }
     }else if(count>=1 && temp!=""){
       std::cout<<" ";
     }else{
