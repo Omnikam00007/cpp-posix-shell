@@ -36,11 +36,31 @@ std::vector<std::string> split_string_special_char(std::string &value){
   cmd_stream >> temp;
   result.push_back(temp);
   int count = 0;
-  while(std::getline(cmd_stream,temp,'\'')){
+  if(value.find('\"') != -1 && value.find('\'') != -1){
+    while(std::getline(cmd_stream,temp,'"')){
     if(count > 0 && temp!=" "){
       result.push_back(temp);
     }
     count++;
+   }
+  }
+  else if(value.find('\"') != -1){
+    while(std::getline(cmd_stream,temp,'"')){
+    if(count > 0 && temp!=" "){
+      result.push_back(temp);
+    }
+    count++;
+   }
+  }
+  else if(value.find('\'') != -1){
+    while(std::getline(cmd_stream,temp,'\'')){
+    if(count > 0 && temp!=" "){
+      result.push_back(temp);
+    }
+    count++;
+   }
+  }else{
+    split_string(value);
   }
 
   return result;
@@ -95,7 +115,7 @@ bool executable(){
         char* path_value = temp2.data();
         std::vector<char*>second;
 
-      if(command.find('\'') != -1){
+      if(command.find('\'') != -1 || command.find('"') != -1){
       std::vector<std::string>first = split_string_special_char(command);
       for(int i=0;i<first.size();i++){
         second.push_back(first[i].data());
@@ -131,7 +151,19 @@ bool executable(){
 
   void Echo_Command(){
 
-  if(command.find('\'')!= -1){
+  if(command.find('"')!= -1){
+  std::istringstream cmd_stream = string_to_stream(command);
+    std::string temp;
+    int count=0;
+    while(std::getline(cmd_stream,temp,'"')){
+    if(count>=1){
+      std::cout<<temp;
+    }
+    count++;
+  }
+  std::cout<<std::endl;
+}
+else if(command.find('\'')!= -1){
     std::istringstream cmd_stream = string_to_stream(command);
     std::string temp;
     int count=0;
