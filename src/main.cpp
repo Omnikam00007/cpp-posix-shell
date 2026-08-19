@@ -156,10 +156,13 @@ bool executable(){
     std::string temp;
     int count=0;
     while(std::getline(cmd_stream,temp,'"')){
+      // std::cout<<temp.find_first_not_of(' ')<<std::endl;
     if(count>=1 && !temp.find_first_not_of(' ')){
       std::cout<<temp;
-    }else if(count>=1 ){
+    }else if(count>=1 && temp!=""){
       std::cout<<" ";
+    }else{
+      std::cout<<"";
     }
     count++;
   }
