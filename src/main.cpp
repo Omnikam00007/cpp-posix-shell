@@ -10,6 +10,42 @@ class Shell{
 public:
   std::string command;
 
+std::istringstream string_to_stream(std::string &value){
+  std::istringstream stream(value);
+
+  return stream;
+}
+
+
+std::vector<std::string> split_string(std::string &value ){
+  std::istringstream cmd_stream = string_to_stream(value);
+  std::vector<std::string>result;
+  std::string word;
+
+  while(cmd_stream >> word){
+    result.push_back(word);
+  }
+  return result;
+}
+
+
+std::vector<std::string> split_string_special_char(std::string &value){
+  std::istringstream cmd_stream = string_to_stream(value);
+  std::vector<std::string>result;
+  std::string temp;
+  cmd_stream >> temp;
+  result.push_back(temp);
+  int count = 0;
+  while(std::getline(cmd_stream,temp,'\'')){
+    if(count > 0){
+      result.push_back(temp);
+    }
+    count++;
+  }
+
+  return result;
+}
+
 std::string find_path(){
   std::string system_path = std::getenv("PATH");
     std::istringstream path_stream(system_path);
@@ -57,19 +93,29 @@ bool executable(){
       if(process==0){
         std::string temp2 = find_path();
         char* path_value = temp2.data();
-      std::string cmd = command.substr(0);
-      std::istringstream cmd_stream(cmd);
-      std::vector<std::string>first;
-      std::vector<char*>second;
-      std::string temp;
-      while(std::getline(cmd_stream,temp,' ')){
-         first.push_back(temp);
-      }
+        std::vector<char*>second;
+
+      if(command.find('\'') != -1){
+      std::vector<std::string>first = split_string_special_char(command);
       for(int i=0;i<first.size();i++){
         second.push_back(first[i].data());
       }
       second.push_back(nullptr);
-      // std::cout<<"Program was passed "<<second.size()-1<<" args (including program name)."<<std::endl;
+      }
+      else{
+        std::string cmd = command.substr(0);
+        std::istringstream cmd_stream(cmd);
+        std::vector<std::string>first;
+        std::string temp;
+        while(std::getline(cmd_stream,temp,' ')){
+         first.push_back(temp);
+        }
+        for(int i=0;i<first.size();i++){
+          second.push_back(first[i].data());
+        }
+      second.push_back(nullptr);
+      }
+      
       execvp(path_value,second.data());
       perror("execvp");
 
@@ -84,8 +130,31 @@ bool executable(){
 
 
   void Echo_Command(){
-    std::cout<<command.substr(5)<<std::endl;
+
+  if(command.find('\'')!= -1){
+    std::istringstream cmd_stream = string_to_stream(command);
+    std::string temp;
+    int count=0;
+    while(std::getline(cmd_stream,temp,'\'')){
+    if(count==1){
+      std::cout<<temp<<std::endl;
+    }
+    count++;
   }
+}
+else{
+    std::vector<std::string>parsed_string = split_string(command);
+    for(int i=1;i<parsed_string.size();i++){
+      std::cout<<parsed_string[i];
+      if(i<parsed_string.size()-1){
+        std::cout<<" ";
+      }
+    }
+    std::cout<<std::endl;
+ }
+}
+
+  
 
   void not_builtin(){
     std::string system_path = std::getenv("PATH");
