@@ -37,7 +37,7 @@ std::vector<std::string> split_string_special_char(std::string &value){
   result.push_back(temp);
   int count = 0;
   while(std::getline(cmd_stream,temp,'\'')){
-    if(count > 0){
+    if(count > 0 && temp!=" "){
       result.push_back(temp);
     }
     count++;
