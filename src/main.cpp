@@ -28,7 +28,18 @@ enum States{
 std::vector<std::string> split_string(std::string &value){
   std::vector<std::string>result;
   std::string token;
-  States state = NORMAL_STATE;
+  States state;
+
+  if(command[0]=='\''){
+    state = SINGLE_STATE;
+  }else if(command[0]=='"'){
+    state = DOUBLE_QUOTED;
+  }else{
+    state = NORMAL_STATE
+  }
+
+
+
   for(int i =0;i<command.size();i++){
     switch(state){
         case NORMAL_STATE:
