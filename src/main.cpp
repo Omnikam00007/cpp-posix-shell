@@ -16,51 +16,47 @@ std::istringstream string_to_stream(std::string &value){
   return stream;
 }
 
+enum States{
+  NORMAL_STATE,
+  DOUBLE_QUOTED
+};
 
-std::vector<std::string> split_string(std::string &value ){
-  std::istringstream cmd_stream = string_to_stream(value);
+
+
+
+std::vector<std::string> split_string(std::string &value){
   std::vector<std::string>result;
-  std::string word;
-
-  while(cmd_stream >> word){
-    result.push_back(word);
-  }
-  return result;
-}
-
-
-std::vector<std::string> split_string_special_char(std::string &value){
-  std::istringstream cmd_stream = string_to_stream(value);
-  std::vector<std::string>result;
-  std::string temp;
-  cmd_stream >> temp;
-  result.push_back(temp);
-  int count = 0;
-  if(value.find('\"') != -1 && value.find('\'') != -1){
-    while(std::getline(cmd_stream,temp,'"')){
-    if(count > 0 && temp!=" "){
-      result.push_back(temp);
-    }
-    count++;
-   }
-  }
-  else if(value.find('\"') != -1){
-    while(std::getline(cmd_stream,temp,'"')){
-    if(count > 0 && temp!=" "){
-      result.push_back(temp);
-    }
-    count++;
-   }
-  }
-  else if(value.find('\'') != -1){
-    while(std::getline(cmd_stream,temp,'\'')){
-    if(count > 0 && temp!=" "){
-      result.push_back(temp);
-    }
-    count++;
-   }
-  }else{
-    split_string(value);
+  std::string token;
+  States state = NORMAL_STATE;
+  for(char c : command){
+    switch(state){
+        case NORMAL_STATE:
+          if(c==' '){
+            if (!token.empty()) {
+                    result.push_back(token);
+                    token.clear();
+                }
+          }else if(c=='"'){
+            state=DOUBLE_QUOTED;
+          }
+          else{
+            token.push_back(c);
+          }
+          break;
+        case DOUBLE_QUOTED:
+          if(c=='"'){
+            state=NORMAL_STATE;
+            if(!token.empty()){
+              result.push_back(token);
+              token.clear();
+            }
+          }else{
+            token.push_back(c);          
+          }
+          break;
+        default:
+          continue;
+        } 
   }
 
   return result;
@@ -115,89 +111,33 @@ bool executable(){
         char* path_value = temp2.data();
         std::vector<char*>second;
 
-      if(command.find('\'') != -1 || command.find('"') != -1){
-      std::vector<std::string>first = split_string_special_char(command);
-      for(int i=0;i<first.size();i++){
+     std::vector<std::string>first = split_string(command);
+     for(int i=0;i<first.size();i++){
         second.push_back(first[i].data());
       }
       second.push_back(nullptr);
-      }
-      else{
-        std::string cmd = command.substr(0);
-        std::istringstream cmd_stream(cmd);
-        std::vector<std::string>first;
-        std::string temp;
-        while(std::getline(cmd_stream,temp,' ')){
-         first.push_back(temp);
-        }
-        for(int i=0;i<first.size();i++){
-          second.push_back(first[i].data());
-        }
-      second.push_back(nullptr);
-      }
-      
       execvp(path_value,second.data());
       perror("execvp");
-
-      }else if(process>0){
+    }
+      else if(process>0){
         waitpid(process,nullptr,0);
       }else{
         std::cerr << "Fork failed" << std::endl;
       }
+    }else{
+      std::cout<<"command is not executable"<<std::endl;
     }
-
-  }
-
+}
 
   void Echo_Command(){
+      
+      std::vector<std::string>result = split_string(command);
 
-  if(command.find('"')!= -1){
-  std::istringstream cmd_stream = string_to_stream(command);
-    std::string temp;
-    int count=0;
-    while(std::getline(cmd_stream,temp,'"')){
-      // std::cout<<temp.find_first_not_of(' ')<<std::endl;
-    if(count>=1 && !temp.find_first_not_of(' ')){
-      auto pos = temp.find_first_not_of(' ');
-  std::cout << ' ';
-
-  if (pos != std::string::npos) {
-      std::cout << temp.substr(pos);
-  }
-    }else if(count>=1 && temp!=""){
-      std::cout<<" ";
-    }else{
-      std::cout<<"";
-    }
-    count++;
-  }
-  std::cout<<std::endl;
-}
-else if(command.find('\'')!= -1){
-    std::istringstream cmd_stream = string_to_stream(command);
-    std::string temp;
-    int count=0;
-    while(std::getline(cmd_stream,temp,'\'')){
-    if(count>=1){
-      std::cout<<temp;
-    }
-    count++;
-  }
-  std::cout<<std::endl;
-}
-else{
-    std::vector<std::string>parsed_string = split_string(command);
-    for(int i=1;i<parsed_string.size();i++){
-      std::cout<<parsed_string[i];
-      if(i<parsed_string.size()-1){
-        std::cout<<" ";
+      for(int i=1;i<result.size();i++){
+        std::cout<<result[i]<<" ";
       }
+      std::cout<<std::endl;
     }
-    std::cout<<std::endl;
- }
-}
-
-  
 
   void not_builtin(){
     std::string system_path = std::getenv("PATH");
