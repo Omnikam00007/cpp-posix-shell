@@ -39,6 +39,7 @@ std::vector<std::string> split_string(std::string &value){
                 }
           }else if(command[i]=='\\'){
             if(command[i+1]){
+              token.push_back(command[i+1]);
               i++;
             }
           }
