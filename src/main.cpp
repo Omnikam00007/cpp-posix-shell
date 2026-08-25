@@ -46,10 +46,6 @@ std::vector<std::string> split_string(std::string &value){
         case DOUBLE_QUOTED:
           if(c=='"'){
             state=NORMAL_STATE;
-            if(!token.empty()){
-              result.push_back(token);
-              token.clear();
-            }
           }else{
             token.push_back(c);          
           }
