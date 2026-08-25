@@ -54,6 +54,10 @@ std::vector<std::string> split_string(std::string &value){
           continue;
         } 
   }
+  if (!token.empty()){
+    result.push_back(token);
+    token.clear();
+  }
 
   return result;
 }
