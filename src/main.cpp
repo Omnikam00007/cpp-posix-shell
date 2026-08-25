@@ -55,6 +55,13 @@ std::vector<std::string> split_string(std::string &value){
         case DOUBLE_QUOTED:
           if(command[i]=='"'){
             state=NORMAL_STATE;
+          }else if(command[i]=='\\'){
+            if(command[i+1] && (command[i+1]=='\\' || command[i+1]=='"'){
+              token.push_back(command[i+1]);
+              i++;
+            }else{
+              token.push_back(token);
+            }
           }else{
             token.push_back(command[i]);          
           }
