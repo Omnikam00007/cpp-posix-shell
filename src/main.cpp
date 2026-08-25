@@ -134,9 +134,9 @@ bool executable(){
         std::vector<char*>second;
 
      std::vector<std::string>first = split_string(command);
-     // for(int i=0;i<first.size();i++){
-     //    std::cout<<first[i]<<std::endl;
-     //  }
+     for(int i=0;i<first.size();i++){
+        std::cout<<first[i]<<std::endl;
+      }
      for(int i=0;i<first.size();i++){
         second.push_back(first[i].data());
       }
