@@ -40,7 +40,7 @@ std::vector<std::string> split_string(std::string &value){
 
 
 
-  for(int i =0;i<command.size();i++){
+  for(int i =1;i<command.size();i++){
     switch(state){
         case NORMAL_STATE:
           if(command[i]==' '){
