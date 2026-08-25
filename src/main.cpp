@@ -31,7 +31,7 @@ std::vector<std::string> split_string(std::string &value){
   States state;
 
   if(command[0]=='\''){
-    state = SINGLE_STATE;
+    state = SINGLE_QUOTED;
   }else if(command[0]=='"'){
     state = DOUBLE_QUOTED;
   }else{
