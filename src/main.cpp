@@ -18,7 +18,8 @@ std::istringstream string_to_stream(std::string &value){
 
 enum States{
   NORMAL_STATE,
-  DOUBLE_QUOTED
+  DOUBLE_QUOTED,
+  SINGLE_QUOTED
 };
 
 
@@ -38,6 +39,8 @@ std::vector<std::string> split_string(std::string &value){
                 }
           }else if(c=='"'){
             state=DOUBLE_QUOTED;
+          }else if(c=='\''){
+            state=SINGLE_QUOTED;
           }
           else{
             token.push_back(c);
@@ -45,6 +48,13 @@ std::vector<std::string> split_string(std::string &value){
           break;
         case DOUBLE_QUOTED:
           if(c=='"'){
+            state=NORMAL_STATE;
+          }else{
+            token.push_back(c);          
+          }
+          break;
+        case SINGLE_QUOTED:
+          if(c=='\''){
             state=NORMAL_STATE;
           }else{
             token.push_back(c);          
