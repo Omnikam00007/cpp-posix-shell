@@ -35,7 +35,7 @@ std::vector<std::string> split_string(std::string &value){
   }else if(command[0]=='"'){
     state = DOUBLE_QUOTED;
   }else{
-    state = NORMAL_STATE
+    state = NORMAL_STATE;
   }
 
 
