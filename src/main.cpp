@@ -29,35 +29,40 @@ std::vector<std::string> split_string(std::string &value){
   std::vector<std::string>result;
   std::string token;
   States state = NORMAL_STATE;
-  for(char c : command){
+  for(int i =0;i<command.size();i++){
     switch(state){
         case NORMAL_STATE:
-          if(c==' '){
+          if(command[i]==' '){
             if (!token.empty()) {
                     result.push_back(token);
                     token.clear();
                 }
-          }else if(c=='"'){
+          }else if(command[i]=='\\'){
+            if(command[i+1]){
+              i++;
+            }
+          }
+          else if(command[i]=='"'){
             state=DOUBLE_QUOTED;
-          }else if(c=='\''){
+          }else if(command[i]=='\''){
             state=SINGLE_QUOTED;
           }
           else{
-            token.push_back(c);
+            token.push_back(command[i]);
           }
           break;
         case DOUBLE_QUOTED:
-          if(c=='"'){
+          if(command[i]=='"'){
             state=NORMAL_STATE;
           }else{
-            token.push_back(c);          
+            token.push_back(command[i]);          
           }
           break;
         case SINGLE_QUOTED:
-          if(c=='\''){
+          if(command[i]=='\''){
             state=NORMAL_STATE;
           }else{
-            token.push_back(c);          
+            token.push_back(command[i]);          
           }
           break;
         default:
