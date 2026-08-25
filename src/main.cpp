@@ -106,10 +106,11 @@ std::string find_path(){
 bool executable(){
   std::string system_path = std::getenv("PATH");
     std::istringstream path_stream(system_path);
-    std::istringstream cmd_stream(command);
+    std::vector<std::string> result = split_string(command);
     std::string temp;
     std::string cmd;
-    std::getline(cmd_stream,cmd,' ');
+    // std::cout<<"inside exec: "<<result[0]<<std::endl;
+    cmd = result[0];
     bool found=false;
     while(std::getline(path_stream,temp,':')){
       std::string filepath = temp + "/" + cmd;
@@ -133,6 +134,9 @@ bool executable(){
         std::vector<char*>second;
 
      std::vector<std::string>first = split_string(command);
+     // for(int i=0;i<first.size();i++){
+     //    std::cout<<first[i]<<std::endl;
+     //  }
      for(int i=0;i<first.size();i++){
         second.push_back(first[i].data());
       }
