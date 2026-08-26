@@ -137,7 +137,6 @@ bool executable(){
         second.push_back(first[i].data());
       }
       second.push_back(nullptr);
-      std::cout<<std::endl;
       execvp(path_value,second.data());
       perror("execvp");
     }
