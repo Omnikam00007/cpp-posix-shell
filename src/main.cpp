@@ -132,18 +132,11 @@ bool executable(){
         int s = temp2.size();
         char* path_value = temp2.data();
         std::vector<char*>second;
-
      std::vector<std::string>first = split_string(command);
-     for(int i=0;i<first.size();i++){
-        std::cout<<first[i]<<std::endl;
-      }
      for(int i=0;i<first.size();i++){
         second.push_back(first[i].data());
       }
       second.push_back(nullptr);
-      for(int i=0;i<s;i++){
-        std::cout<<path_value[i];
-      }
       std::cout<<std::endl;
       execvp(path_value,second.data());
       perror("execvp");
