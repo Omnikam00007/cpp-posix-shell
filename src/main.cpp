@@ -89,8 +89,8 @@ std::string find_path(){
     std::string temp;
     std::string filepath;
     std::string cmd;
-    std::istringstream cmd_stream(command);
-    std::getline(cmd_stream,cmd,' ');
+    std::vector<std::string>result = split_string(command);
+    cmd = result[0];
     bool found=false;
     while(std::getline(path_stream,temp,':')){
        filepath = temp + "/" + cmd;
@@ -109,7 +109,6 @@ bool executable(){
     std::vector<std::string> result = split_string(command);
     std::string temp;
     std::string cmd;
-    // std::cout<<"inside exec: "<<result[0]<<std::endl;
     cmd = result[0];
     bool found=false;
     while(std::getline(path_stream,temp,':')){
@@ -130,6 +129,7 @@ bool executable(){
 
       if(process==0){
         std::string temp2 = find_path();
+        int s = temp2.size();
         char* path_value = temp2.data();
         std::vector<char*>second;
 
@@ -141,6 +141,10 @@ bool executable(){
         second.push_back(first[i].data());
       }
       second.push_back(nullptr);
+      for(int i=0;i<s;i++){
+        std::cout<<path_value[i];
+      }
+      std::cout<<std::endl;
       execvp(path_value,second.data());
       perror("execvp");
     }
